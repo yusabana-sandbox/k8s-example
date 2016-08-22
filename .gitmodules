@@ -1,0 +1,9 @@
+[submodule "example3/coreos-kubernetes"]
+	path = example3/coreos-kubernetes
+	url = https://github.com/coreos/coreos-kubernetes
+[submodule "example2/kubernetes"]
+	path = example2/kubernetes
+	url = https://github.com/GoogleCloudPlatform/kubernetes
+[submodule "example2/kubernetes-vagrant-coreos-cluster"]
+	path = example2/kubernetes-vagrant-coreos-cluster
+	url = https://github.com/pires/kubernetes-vagrant-coreos-cluster
