@@ -6,56 +6,87 @@ git submodule init
 git submodule update
 ```
 
+kubectlコマンドを入れる
+
 ```
 % curl -O https://storage.googleapis.com/kubernetes-release/release/v1.3.4/bin/darwin/amd64/kubectl
 % chmod +x kubectl
 % mv kubectl /usr/local/bin/kubectl  <= PATHのあるところに移動
 ```
 
+```
+curl -k -o kubectl https://kuar.io/darwin/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+
+kubectl get nodes
+nodeが出力される
+```
+
+
+### DockerContainerの配備場所
+
+* AWS の ECR https://aws.amazon.com/jp/ecr/
+
 ## example1
 
-http://qiita.com/koudaiii/items/d0b3b0b78dc44d97232a
-https://coreos.com/kubernetes/docs/latest/configure-kubectl.html
+CoreOSをベースにkubernetesのクラスタ環境を構築する
+* [vagrant + CoreOSでkubernetesのguestbookサンプルを動かす - Qiita](http://qiita.com/otakuto/items/2ef66520f8159b9a3f55)
+* [coreos-kubernetes/kubernetes-on-vagrant.md at master · coreos/coreos-kubernetes](https://github.com/coreos/coreos-kubernetes/blob/master/Documentation/kubernetes-on-vagrant.md)
+
+
+### vagrant upすると次のエラーが出たので対処
 
 ```
-mkdir ~/.kube/
-touch ~/.kube/config   # <= とりあえず設定するものがないので
+% vagrant up
+dyld: Library not loaded: /vagrant-substrate/staging/embedded/lib/libssl.1.0.0.dylib
+  Referenced from: /opt/vagrant/embedded/bin/openssl
+    Reason: image not found
+    ./../../lib/init-ssl-ca: line 32: 25165 Trace/BPT trap: 5       $OPENSSL genrsa -out "$OUTDIR/ca-key.pem" 2048
+    failed generating SSL artifacts
 ```
+
+```
+refs. https://github.com/mitchellh/vagrant/issues/7747
+% sudo ln -sf /usr/local/opt/openssl/bin/openssl /opt/vagrant/embedded/bin/openssl
+```
+
+### configファイルについて
+
+`KUBECOONFIG=k8s.yaml` のように環境変数を設定することで config が `~/.kube/config` ではない設定を読み込むことができる
+またはコマンド実行するときに `--kubeconfig=k8s.yaml` のようにオプションで指定することも可能。
 
 
 ## example2
 
-[VagrantとCoreOSでkubernetesをMacで使ってみる　①環境構築編 - Qiita](http://qiita.com/Clip-glass/items/1eb61f983a69f22ac8e3)
-[VagrantとCoreOSでkubernetesをMacで使ってみる　②サンプル実行編 - Qiita](http://qiita.com/Clip-glass/items/61077a66693c8daa0bdd)
-
-```yaml:自動で~/.kube/configに設定が書き込まれる
-apiVersion: v1
-clusters:
-- cluster:
-    insecure-skip-tls-verify: true
-    server: http://172.17.8.101:8080
-  name: local
-contexts:
-- context:
-    cluster: local
-    namespace: default
-    user: ""
-  name: local
-current-context: local
-kind: Config
-preferences: {}
-users: []
-```
+minikube
+[Minikube で簡易 kubernetes 環境構築](https://jedipunkz.github.io/blog/2016/07/25/minikube/)
+http://kubernetes.io/docs/getting-started-guides/minikube/
+http://qiita.com/tukiyo3/items/a62c59905e9d76becf15
 
 
 ## example3
 
-[vagrant + CoreOSでkubernetesのguestbookサンプルを動かす - Qiita](http://qiita.com/otakuto/items/2ef66520f8159b9a3f55)
+CentOS7に手動でセットアップする
+
+* [kubernetesによるDockerコンテナ管理入門 - さくらのナレッジ](http://knowledge.sakura.ad.jp/tech/3681/)
 
 
 ## example4
 
-minikube
-http://kubernetes.io/docs/getting-started-guides/minikube/
-http://qiita.com/tukiyo3/items/a62c59905e9d76becf15
+公式の手順
 
+### pre-releaseを入れて試す
+http://kubernetes.io/docs/getting-started-guides/binary_release/
+
+* kubernetesのpre-releaesを入れるなら homebrew だけでも入れられる
+
+```
+http://kubernetes.io/docs/getting-started-guides/binary_release/#prebuilt-binary-release
+brew install kubernetes-cli
+```
+
+* http://kubernetes.io/docs/getting-started-guides/binary_release/#download-kubernetes-and-automatically-set-up-a-default-cluster
+  * bash script でkubernetesを入れつつデフォルトクラスタをセットアップする
+
+```
+export KUBERNETES_PROVIDER=YOUR_PROVIDER; curl -sS https://get.k8s.io | bash
+```
