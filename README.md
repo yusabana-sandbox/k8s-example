@@ -39,6 +39,40 @@ CoreOSをベースにkubernetesのクラスタ環境を構築する
   * [kubernetes/README.md at release-1.4 · kubernetes/kubernetes](https://github.com/kubernetes/kubernetes/blob/release-1.4/examples/guestbook/README.md)
 
 
+### example1でクラスタ環境を作る coreos-kubernetesの実行
+[coreos/coreos-kubernetes](https://github.com/coreos/coreos-kubernetes/) を設定するためには以下の記事を参照
+
+https://coreos.com/kubernetes/docs/latest/kubernetes-on-vagrant.html
+
+config.rbなどを設定する
+
+#### configファイルについて
+
+`KUBECONFIG=k8s.yaml` のように環境変数を設定することで config が `~/.kube/config` ではない設定を読み込むことができる
+またはコマンド実行するときに `--kubeconfig=k8s.yaml` のようにオプションで指定することも可能。
+
+```
+export KUBECONFIG="${KUBECONFIG}:$(pwd)/kubeconfig"
+kubectl config use-context vagrant-multi
+```
+
+config関連の設定を入れる
+
+```
+kubectl config set-cluster vagrant-multi-cluster --server=https://172.17.4.101:443 --certificate-authority=${PWD}/ssl/ca.pem
+kubectl config set-credentials vagrant-multi-admin --certificate-authority=${PWD}/ssl/ca.pem --client-key=${PWD}/ssl/admin-key.pem --client-certificate=${PWD}/ssl/admin.pem
+kubectl config set-context vagrant-multi --cluster=vagrant-multi-cluster --user=vagrant-multi-admin
+kubectl config use-context vagrant-multi
+
+# 以下の通りコマンドの結果が出力されれば完了
+kubectl get nodes
+```
+
+
+### wantedlyのサンプル
+http://qiita.com/koudaiii/items/d0b3b0b78dc44d97232a
+https://github.com/koudaiii/docker-hello-world
+
 ### vagrant upすると次のエラーが出たので対処
 
 ```
@@ -54,11 +88,6 @@ dyld: Library not loaded: /vagrant-substrate/staging/embedded/lib/libssl.1.0.0.d
 refs. https://github.com/mitchellh/vagrant/issues/7747
 % sudo ln -sf /usr/local/opt/openssl/bin/openssl /opt/vagrant/embedded/bin/openssl
 ```
-
-### configファイルについて
-
-`KUBECOONFIG=k8s.yaml` のように環境変数を設定することで config が `~/.kube/config` ではない設定を読み込むことができる
-またはコマンド実行するときに `--kubeconfig=k8s.yaml` のようにオプションで指定することも可能。
 
 
 ## example2

@@ -4,3 +4,6 @@
 [submodule "example1/kubernetes"]
 	path = example1/kubernetes
 	url = https://github.com/kubernetes/kubernetes
+[submodule "example1/docker-hello-world"]
+	path = example1/docker-hello-world
+	url = https://github.com/koudaiii/docker-hello-world
