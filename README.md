@@ -32,6 +32,9 @@ CoreOSをベースにkubernetesのクラスタ環境を構築する
 * [vagrant + CoreOSでkubernetesのguestbookサンプルを動かす - Qiita](http://qiita.com/otakuto/items/2ef66520f8159b9a3f55)
 * [coreos-kubernetes/kubernetes-on-vagrant.md at master · coreos/coreos-kubernetes](https://github.com/coreos/coreos-kubernetes/blob/master/Documentation/kubernetes-on-vagrant.md)
 
+* Guestbookのサンプルドキュメント
+  * [kubernetes/README.md at release-1.4 · kubernetes/kubernetes](https://github.com/kubernetes/kubernetes/blob/release-1.4/examples/guestbook/README.md)
+
 
 ### vagrant upすると次のエラーが出たので対処
 
