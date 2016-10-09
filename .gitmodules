@@ -7,3 +7,6 @@
 [submodule "example1/docker-hello-world"]
 	path = example1/docker-hello-world
 	url = https://github.com/koudaiii/docker-hello-world
+[submodule "example1/go_server"]
+	path = example1/go_server
+	url = https://github.com/koudaiii/go_server
