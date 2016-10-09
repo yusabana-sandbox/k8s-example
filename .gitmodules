@@ -1,0 +1,6 @@
+[submodule "example1/coreos-kubernetes"]
+	path = example1/coreos-kubernetes
+	url = https://github.com/coreos/coreos-kubernetes/
+[submodule "example1/kubernetes"]
+	path = example1/kubernetes
+	url = https://github.com/kubernetes/kubernetes
