@@ -1,7 +1,10 @@
 ## Setup
 
+https://git-scm.com/book/ja/v2/Git-のさまざまなツール-サブモジュール
+
 ```
 git clone https://github.com/yusabana-sandbox/k8s-example
+cd k8s-example
 git submodule init
 git submodule update
 ```
