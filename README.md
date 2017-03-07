@@ -68,7 +68,6 @@ kubectl config use-context vagrant-multi
 kubectl get nodes
 ```
 
-
 ### wantedlyのサンプル
 http://qiita.com/koudaiii/items/d0b3b0b78dc44d97232a
 https://github.com/koudaiii/docker-hello-world
@@ -92,10 +91,39 @@ refs. https://github.com/mitchellh/vagrant/issues/7747
 
 ## example2
 
-minikube
-[Minikube で簡易 kubernetes 環境構築](https://jedipunkz.github.io/blog/2016/07/25/minikube/)
-http://kubernetes.io/docs/getting-started-guides/minikube/
-http://qiita.com/tukiyo3/items/a62c59905e9d76becf15
+* minikube
+  * http://kubernetes.io/docs/getting-started-guides/minikube/
+  * [Minikube で簡易 kubernetes 環境構築](https://jedipunkz.github.io/blog/2016/07/25/minikube/)
+  * [minikubeでローカルKubernetes クラスタを作成してみた - Qiita](http://qiita.com/tukiyo3/items/a62c59905e9d76becf15)
+
+
+### インストール
+
+https://github.com/kubernetes/minikube/releases
+
+```
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.11.0/minikube-darwin-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+
+minikube start
+
+```
+
+以下を実行して ~/.kube/config の minikube の context を利用する用に設定する
+
+```
+kubectl config use-context minikube
+```
+
+minikubeのビルトインしているDocker関連を操作できる。
+
+```
+eval $(minikube docker-env)
+```
+
+Dockerレジストリの用意がない場合はminikubeのホスト上で `docker build` して利用する。
+その場合の注意として kubernetes は `:latest` タグの付いたものだとpullしようとするので、バージョンを固定する必要がある
+
+
 
 
 ## example3
@@ -103,6 +131,9 @@ http://qiita.com/tukiyo3/items/a62c59905e9d76becf15
 CentOS7に手動でセットアップする
 
 * [kubernetesによるDockerコンテナ管理入門 - さくらのナレッジ](http://knowledge.sakura.ad.jp/tech/3681/)
+
+* [KubernetesをCentOS7 1台(AWS EC2)へインストール - Qiita](http://qiita.com/suzukihi724/items/4e120fdc66b014cfa972)
+* [KubernetesをCentOS7 複数台(AWS EC2)へインストール - Qiita](http://qiita.com/suzukihi724/items/d3270121009120f9c9f0#_reference-f604af05b4df0ae3c065)
 
 
 ## example4
@@ -125,3 +156,7 @@ brew install kubernetes-cli
 ```
 export KUBERNETES_PROVIDER=YOUR_PROVIDER; curl -sS https://get.k8s.io | bash
 ```
+
+## example5
+
+[Kubernetes: クラスタ構築が簡単になるkubeadm - Qiita](http://qiita.com/tkusumi/items/5908c91807107551e796)
